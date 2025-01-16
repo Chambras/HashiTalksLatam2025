@@ -1,0 +1,16 @@
+---
+- name: Install Main Development VM
+  hosts: all
+  become: yes
+
+  pre_tasks:
+  - debug:
+      msg: 'Beginning Main Development VM server configuration. {{ ansible_distribution }}-{{ ansible_distribution_major_version}} {{ ansible_distribution_release }}'
+
+  roles:
+    - install
+
+  post_tasks:
+    - debug:
+        msg: 'Main Development VM server has been configured. Happy Coding!!!'
+        

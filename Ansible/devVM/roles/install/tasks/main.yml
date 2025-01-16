@@ -1,0 +1,266 @@
+---
+- name: Copy home dot files
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+  with_items:
+    - {src: '.gitconfig.j2', dest: '/home/{{ dev_user }}/.gitconfig' }
+    - {src: '.bash_aliases.j2', dest: '/home/{{ dev_user }}/.bash_aliases'}
+    - {src: '.profile.j2', dest: '/home/{{ dev_user }}/.profile'}
+    - {src: '.vimrc', dest: '/home/{{ dev_user }}/.vimrc'}
+    - {src: '.banner.rc.j2', dest: '/home/{{ dev_user }}/.banner.rc'}
+
+- name: Copy .bashrc and .bashprompt.rc
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+  with_items:
+    - {src: '.bashrc', dest: '/home/{{ dev_user }}/.bashrc'}
+    - {src: '.bashprompt.rc', dest: '/home/{{ dev_user }}/.bashprompt.rc'}
+
+
+- name: Adding repos
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+  with_items:
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ BNT_VRSN_NM }} universe"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ BNT_VRSN_NM }}-updates universe"
+
+- name: Install MS .deb package from the internet.
+  apt:
+    deb: https://packages.microsoft.com/config/ubuntu/{{BNT_VRSN}}/packages-microsoft-prod.deb
+
+- name: Install initial packages
+  apt:
+    name: '{{ packages }}'
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+    - tree 
+    - curl
+    - wget
+    - mc
+    - jq
+    - unzip
+    - tmux
+    - vim
+    - git
+    - apt-transport-https
+    - ca-certificates 
+    - lsb-release 
+    - gnupg
+    - software-properties-common
+    - ipcalc
+    - make
+
+- name: Import apt keys
+  apt_key:
+    url: '{{ item.url }}'
+    state: present
+    keyring: '{{ item.keyringpath }}{{ item.keyring }}'
+  with_items:
+    - {url: 'https://packages.microsoft.com/keys/microsoft.asc', keyringpath: '/etc/apt/keyrings/', keyring: 'microsoft.gpg'}
+
+- name: Add repos
+  apt_repository:
+    repo: '{{ item.repo }}'
+    filename: '{{ item.filename }}'
+    state: present
+  with_items:
+    - {repo: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main', filename: 'azure-cli'}
+
+- name: Install dev packages
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+  with_items:
+    - azure-cli
+
+  # vi
+- name: Create Home vim folders
+  file:
+    path: /home/{{ dev_user }}/.vim/colors
+    state: directory
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}' 
+
+- name: Get Vim theme
+  unarchive:
+    src: https://github.com/sjl/badwolf/archive/v{{BDWLF_VRSN}}.zip
+    dest: /home/{{ dev_user }}/
+    copy: no
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+
+- name: Copy badwolf theme to /.vim/colors user folder
+  copy:
+    src: /home/{{ dev_user }}/badwolf-{{BDWLF_VRSN}}/colors/badwolf.vim
+    dest: /home/{{ dev_user }}/.vim/colors/
+    remote_src: yes
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+
+- name: Install Go 
+  unarchive:
+    src: https://dl.google.com/go/go{{G_VRSN}}.linux-amd64.tar.gz
+    dest: /opt/
+    copy: no
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+
+- name: Install GitHub CLI .deb package from the internet.
+  apt:
+    deb: https://github.com/cli/cli/releases/download/v{{GH_VRSN}}/gh_{{GH_VRSN}}_linux_amd64.deb
+
+- name: Create Home terraform related folders
+  file:
+    path: '{{ item.path }}'
+    state: directory
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+  with_items:
+    - {path: '/home/{{ dev_user }}/.terraform.d/plugin-cache/linux_amd64'}
+    - {path: '/home/{{ dev_user }}/.tflint.d/plugins/'}
+
+- name: Download Terraform
+  get_url:
+    url: https://releases.hashicorp.com/terraform/{{TRRFRM_VRSN}}/terraform_{{TRRFRM_VRSN}}_linux_amd64.zip
+    dest: /home/{{dev_user}}/terraform_{{TRRFRM_VRSN}}_linux_amd64.zip
+
+- name: Unpack Terraform 
+  unarchive:
+    src: /home/{{dev_user}}/terraform_{{TRRFRM_VRSN}}_linux_amd64.zip
+    dest: /usr/local/bin/
+    copy: no
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+
+- name: Download tflint and azurerm rulset
+  get_url:
+    url: '{{ item.url }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { url: 'https://github.com/terraform-linters/tflint/releases/download/v{{TFLINT_VRSN}}/tflint_linux_amd64.zip', dest: '/home/{{dev_user}}/tflint.zip' }
+    - { url: 'https://github.com/terraform-linters/tflint-ruleset-azurerm/releases/download/v{{TFLINT_AZURERM}}/tflint-ruleset-azurerm_linux_amd64.zip', dest: '/home/{{dev_user}}/tflint-ruleset-azurerm_linux_amd64.zip'}
+
+- name: Unpack tflint and azurerm rulset
+  unarchive:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    copy: no
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+  with_items:
+    - { src: '/home/{{dev_user}}/tflint.zip', dest: '/usr/local/bin/' }
+    - { src: '/home/{{dev_user}}/tflint-ruleset-azurerm_linux_amd64.zip', dest: '/home/{{ dev_user }}/.tflint.d/plugins/' }
+
+- name: Create config directories
+  file:
+    path: '/home/{{ dev_user }}/{{ item }}'
+    state: directory
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+  with_items:
+    - .azure
+    - .ssh
+    - .config/gh
+
+- name: copy GitHub CLI config
+  copy:
+    src: '{{ item }}'
+    dest: '/home/{{ dev_user }}/.config/gh/{{ item }}'
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+    mode: '0600'
+  with_items:
+    - config.yml
+    - hosts.yml
+
+- name: copy Terraform Cloud config
+  copy:
+    src: '{{ item }}'
+    dest: '/home/{{ dev_user }}/{{ item }}'
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+    mode: '0600'
+  with_items:
+    - .terraformrc
+
+- name: Create local bin folder
+  file:
+    path: /home/{{ dev_user }}/.local/bin/
+    state: directory
+    owner: '{{ dev_user }}'
+    group: '{{ dev_group }}'
+    mode: 0744
+
+- name: Copying personal tools
+  copy:
+    src: '{{ item }}'
+    dest: '/home/{{ dev_user }}/.local/bin/{{ item }}'
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+    mode: '0744'
+  with_items:
+    - updateTools.sh
+    - setWSLCloud.sh
+
+- name: Repos folder
+  file: 
+    path: /home/{{ dev_user }}/Repos
+    state: directory
+    owner: '{{ dev_user }}'
+    group: '{{ dev_group }}'
+    mode: '0755'
+
+- name: GoProjects folder
+  file: 
+    path: /home/{{ dev_user }}/Repos/GoProjects
+    state: directory
+    owner: '{{ dev_user }}'
+    group: '{{ dev_group }}'
+    mode: '0755'
+
+- name: Test folder
+  file: 
+    path: /home/{{ dev_user }}/Repos/TestProvider
+    state: directory
+    owner: '{{ dev_user }}'
+    group: '{{ dev_group }}'
+    mode: '0755'
+
+- name: Copying test main.tf
+  copy:
+    src: '{{ item }}'
+    dest: '/home/{{ dev_user }}/Repos/TestProvider/{{ item }}'
+    group: '{{ dev_group }}'
+    owner: '{{ dev_user }}'
+    mode: '0644'
+  with_items:
+    - main.tf
+
+- name: Get Files to be deleted
+  find:
+    paths: /home/{{ dev_user }}/
+    patterns: 
+    - '*.zip'
+    - '*.tar.gz'
+  register: installers
+
+- name: Remove unused files
+  file:
+    path: '{{ item.path }}'
+    state: absent
+  with_items:
+    - '{{ installers.files }}'
+
+- name: Remove temp directories
+  file:
+    path: /home/{{ dev_user }}/badwolf-{{BDWLF_VRSN}}
+    state: absent

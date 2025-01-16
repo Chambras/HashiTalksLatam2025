@@ -1,0 +1,15 @@
+BNT_VRSN: 24.04
+BNT_VRSN_NM: noble
+
+dev_user: marcelo
+dev_group: marcelo
+
+TRRFRM_VRSN: 1.10.4
+TFLINT_VRSN: 0.54.0
+TFLINT_AZURERM: 0.27.0
+
+GH_VRSN: 2.43.1
+
+G_VRSN: 1.22.7
+
+BDWLF_VRSN: 1.6.0

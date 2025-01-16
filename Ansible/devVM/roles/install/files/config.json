@@ -1,0 +1,175 @@
+{
+  "profiles": {
+    "defaults": {
+      "subscriptionID": "b8d99a39-9e9b-4385-b4f7-09dbcfa353a8",
+      "subscriptionName": "Marcelo-Main",
+      "subShortName": "main",
+      "tenantID": "fe1582cd-dbdd-4001-a922-9e445ddc8fc4",
+      "tenantName": "M365x735935.onmicrosoft.com",
+      "clientID": "83413cf6-bebd-4fc8-bcaa-969c54867fed",
+      "clientName": "http://prsnlmarcelocli",
+      "clientSecret": "nhR8Q~O9Bn4JuJiUrsn9w6Mz3L-yE5Q_FEg4Ubgj",
+      "clientCertificatePath": "/home/marcelo/.azure/prsnlmarcelocli.pfx",
+      "clientCertificatePEMPath": "/home/marcelo/.azure/prsnlmarcelocli.pem",
+      "clientCertificatePassword": "",
+      "cloudType": "public"
+    },
+    "tenants": [
+      {
+        "tenantID": "fe1582cd-dbdd-4001-a922-9e445ddc8fc4",
+        "tenantName": "M365x735935.onmicrosoft.com",
+        "subscriptions": [
+          {
+            "subscriptionID": "b8d99a39-9e9b-4385-b4f7-09dbcfa353a8",
+            "subscriptionName": "Marcelo-Main",
+            "subShortName": "main"
+          },
+          {
+            "subscriptionID": "b4521513-2ffd-4bff-a606-916d9b9347d0",
+            "subscriptionName": "Marcelo-Production",
+            "subShortName": "prod"
+          },
+          {
+            "subscriptionID": "81ccde3f-30fc-4cc4-9c2b-3174713a9145",
+            "subscriptionName": "Marcelo-Dev",
+            "subShortName": "dev"
+          },
+          {
+            "subscriptionID": "bcbd2402-2296-455b-8190-65e9fa4ba46e",
+            "subscriptionName": "Marcelo-Staging",
+            "subShortName": "stg"
+          },
+          {
+            "subscriptionID": "37e4077a-2e95-49e4-b443-5f5ce8f92657",
+            "subscriptionName": "Marcelo-DogFooding",
+            "subShortName": "dog"
+          },
+          {
+            "subscriptionID": "3a0ed40a-f9cc-48b3-81c6-4cff5a9741d8",
+            "subscriptionName": "Marcelo-Testing",
+            "subShortName": "test"
+          },
+          {
+            "subscriptionID": "76c0f28f-a2ff-4c51-a7e8-047c6e135d33",
+            "subscriptionName": "Marcelo-PlayGround",
+            "subShortName": "playg"
+          }
+
+        ],
+        "servicePrincipals": [
+          {
+            "clientID": "83413cf6-bebd-4fc8-bcaa-969c54867fed",
+            "clientSecret": "nhR8Q~O9Bn4JuJiUrsn9w6Mz3L-yE5Q_FEg4Ubgj"
+          }
+        ]
+      },
+      {
+        "tenantID": "6fe57d50-3f7b-4044-8b65-5db51f286157",
+        "tenantName": "marcechamhotmail.onmicrosoft.com",
+        "subscriptions": [
+          {
+            "subscriptionID": "53dc4e4a-d011-408c-886c-ce2e75416756",
+            "subscriptionName": "Marcelo-Personal",
+            "subShortName": "per"
+          }
+        ],
+        "servicePrincipals": [
+          {
+            "clientID": "fc926d04-2fa0-42af-88df-e99616b3d4d1",
+            "clientSecret": "STl8Q~uyZJVazGxzIKyVjGUibTL0NtYbG~yVgc7Q"
+          }
+        ]
+      },
+      {
+        "tenantID": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "tenantName": "microsoft.com",
+        "subscriptions": [
+          {
+            "subscriptionID": "7340ffcf-77cc-4832-b1bd-717fd2823d61",
+            "subscriptionName": "Marcelo-Internal",
+            "subShortName": "int"
+          }
+        ],
+        "servicePrincipals": [
+          {
+            "clientID": "3d20454e-813a-47cf-b7d0-fa0301df6614",
+            "clientSecret": "ArJ8Q~50gyiK2vNRTN0S7u_rKMqnT4cOsUG7Qc6B"
+          }
+        ]
+      },
+      {
+        "tenantID": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "tenantName": "microsoft.com",
+        "subscriptions": [
+          {
+            "subscriptionID": "53a1398a-bda1-4f73-b2f0-823b106d8ebe",
+            "subscriptionName": "Marcelo-FFL",
+            "subShortName": "ffl"
+          }
+        ],
+        "servicePrincipals": [
+          {
+            "clientID": "74042a19-5f3d-4123-b75c-99ace7dc7cc6",
+            "clientName": "ldeautomation",
+            "clientSecret": "qtsB~TUqs6HSC.OyHgQoJOpvzuGdtU9dJG"
+          }
+        ]
+      },
+      {
+        "tenantID": "40a3c411-b2a7-4f7b-a28e-05bf8dd7ab7b",
+        "tenantName": "fieldinternaltrials.onmicrosoft.com",
+        "cloudType": "usgovernment",
+        "subscriptions": [
+          {
+            "subscriptionID": "a144eb9a-9afc-4d65-ae1f-8828821546a9",
+            "subscriptionName": "Marcelo-Gov",
+            "subShortName": "gov"
+          }
+        ],
+        "servicePrincipals": [
+          {
+            "clientID": "70b07a7f-379b-472a-a824-f552deafe89f",
+            "clientSecret": "Z_Aar-2fkSs-3yw9J-~1ddO466N1N~G_QH"
+          }
+        ]
+      },
+      {
+        "tenantID": "5e14a714-50bd-41f0-829c-8731f12d4bb3",
+        "tenantName": "smtme3.onmicrosoft.com",
+        "subscriptions": [
+          {
+            "subscriptionID": "1da0645b-d06a-4ee7-a777-d13cc24b9818",
+            "subscriptionName": "SMT-MIP-ET-DEVOPS-COM",
+            "subShortName": "etdevops"
+          },
+          {
+            "subscriptionID": "9d49bb96-76eb-479b-8775-406b1e2aee5a",
+            "subscriptionName": "SMT-MIP-ET-EET-NoPolicy-COM",
+            "subShortName": "etnoplcy"
+          },
+          {
+            "subscriptionID": "7f2d4242-70dc-48d2-9db6-9a179ea594a9",
+            "subscriptionName": "SMT-MIP-ET-EET-Policy-COM",
+            "subShortName": "etplcy"
+          },
+          {
+            "subscriptionID": "2d735081-04b0-47aa-b398-2af58f3538e7",
+            "subscriptionName": "SMT-MIP-ET-MVP-NoPolicy-COM",
+            "subShortName": "etmvpnoplcy"
+          },
+          {
+            "subscriptionID": "8dd6fc41-e22b-495a-8138-3cdb46d82dd8",
+            "subscriptionName": "SMT-MIP-ET-MVP-Policy-COM",
+            "subShortName": "etmvpplcy"
+          }
+        ],
+        "servicePrincipals": [
+          {
+            "clientID": "c0e838f3-27e2-478e-a93c-56ef44952a07",
+            "clientSecret": "uAQ8Q~go-ve9XWilMlz15~rqfFniptTunEEw-aGb"
+          }
+        ]
+      }
+    ]
+  }
+}
